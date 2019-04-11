@@ -5,14 +5,16 @@ import { Todo } from '../models/Todo'
 interface TodoListProps {
   todos: Todo[];
   onUpdate(todo: Todo): void;
+  onDelete(todo: Todo): void;
 }
 
 const TodoList = (props: TodoListProps) => {
-  const { todos, onUpdate } = props;
+  const { todos, onUpdate, onDelete } = props;
+  
   return <ul>
     {todos.map(todo => (
       <li key={todo.id}>
-        <TodoItem todo={todo} onUpdate={onUpdate}/>
+        <TodoItem todo={todo} onUpdate={onUpdate} onDelete={onDelete}/>
       </li>
     ))}
   </ul>

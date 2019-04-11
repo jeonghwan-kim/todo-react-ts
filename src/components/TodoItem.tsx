@@ -4,6 +4,7 @@ import { Todo } from '../models/Todo';
 interface TodoItemProps {
   todo: Todo;
   onUpdate(todo: Todo): void;
+  onDelete(todo: Todo): void;
 }
 interface TodoItemState {
   checked: boolean;
@@ -14,6 +15,7 @@ class TodoItem extends React.Component<TodoItemProps, TodoItemState> {
     super(props)
     
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       checked: props.todo.completed,
@@ -30,6 +32,10 @@ class TodoItem extends React.Component<TodoItemProps, TodoItemState> {
       completed: checked,
     })
   }
+  handleClick() {
+    const { onDelete, todo } = this.props;
+    onDelete(todo);
+  }
   render() {
     const { todo } = this.props;
     const { checked } = this.state;
@@ -41,7 +47,7 @@ class TodoItem extends React.Component<TodoItemProps, TodoItemState> {
           onChange={this.handleChange}
           readOnly></input>
         <span style={{textDecoration: checked ? 'line-through' : ''}}>{todo.title}</span>
-        <button>X</button>
+        <button onClick={this.handleClick}>X</button>
       </div>
     );
   }

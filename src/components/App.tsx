@@ -16,6 +16,7 @@ class App extends React.Component<AppProps, AppState> {
     super(props)
 
     this.updateTodo = this.updateTodo.bind(this);
+    this.deleteTodo = this.deleteTodo.bind(this);
 
     this.state = {
       todos: [
@@ -42,13 +43,22 @@ class App extends React.Component<AppProps, AppState> {
       })
     });
   }
+  deleteTodo({ id }: Todo) {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.filter(t => t.id !== id)
+    })
+  }
   render() {
     const { todos } = this.state; 
     return (
       <div>
         <h1>Todo</h1>
         <TodoForm onSubmit={(todo: Todo) => this.addTodo(todo)}/>
-        <TodoList todos={todos} onUpdate={this.updateTodo} />
+        <TodoList 
+          todos={todos} 
+          onUpdate={this.updateTodo} 
+          onDelete={this.deleteTodo}/>
       </div>
     )
   } 
