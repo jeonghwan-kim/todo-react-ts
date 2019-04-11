@@ -15,6 +15,8 @@ class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props)
 
+    this.updateTodo = this.updateTodo.bind(this);
+
     this.state = {
       todos: [
         {id: 1, title: '할일 1', completed: false},
@@ -32,13 +34,21 @@ class App extends React.Component<AppProps, AppState> {
       ]
     })
   }
+  updateTodo(todo: Todo) {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.map(t => {
+        return t.id === todo.id ? todo : t;
+      })
+    });
+  }
   render() {
     const { todos } = this.state; 
     return (
       <div>
         <h1>Todo</h1>
         <TodoForm onSubmit={(todo: Todo) => this.addTodo(todo)}/>
-        <TodoList todos={todos} />
+        <TodoList todos={todos} onUpdate={this.updateTodo} />
       </div>
     )
   } 
