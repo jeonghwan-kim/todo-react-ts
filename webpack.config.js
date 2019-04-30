@@ -11,6 +11,7 @@ module.exports = {
   devServer: {
     contentBase: './', // webpack is served from here
     publicPath: '/dist/', // webpack output is served from here
+    historyApiFallback: true,
   },
 
   resolve: {

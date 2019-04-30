@@ -1,37 +1,39 @@
 import * as React from "react";
+import { match, Redirect, RouteComponentProps } from 'react-router-dom';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import TodoFilters from './TodoFilters';
 import { Todo } from '../models/Todo'
 import { Filter } from '../models/Filter'
 
-interface AppProps {
+interface FilterParam {
+  filter: Filter;
+}
 
+interface AppProps {
+  match: match<FilterParam>;
 }
 
 interface AppState {
   todos: Todo[];
-  filter: Filter;
 }
 
-class App extends React.Component<AppProps, AppState> { 
-  constructor(props: AppProps) {
+class App extends React.Component<AppProps & RouteComponentProps, AppState> { 
+  constructor(props: AppProps & RouteComponentProps) {
     super(props)
-
-    this.updateTodo = this.updateTodo.bind(this);
-    this.deleteTodo = this.deleteTodo.bind(this);
-    this.filterTodos = this.filterTodos.bind(this);
 
     this.state = {
       todos: [
         {id: 1, title: '할일 1', completed: false},
         {id: 2, title: '할일 2', completed: true},
       ],
-      filter: Filter.All,
     };
   }
+  
   fetchTodos(): Todo[] {
-    const { todos, filter } = this.state;
+    const { match } = this.props;
+    const filter = match.params.filter;
+    const { todos } = this.state;
 
     if ([Filter.Done, Filter.Todo].indexOf(filter) > -1) {
       return todos.filter(todo => {
@@ -45,7 +47,8 @@ class App extends React.Component<AppProps, AppState> {
 
     return todos;
   }
-  addTodo(todo: Todo) {
+  
+  addTodo = (todo: Todo) => {
     const { todos } = this.state;
     
     this.setState({
@@ -55,7 +58,8 @@ class App extends React.Component<AppProps, AppState> {
       ]
     })
   }
-  updateTodo(todo: Todo) {
+
+  updateTodo = (todo: Todo) => {
     const { todos } = this.state;
     this.setState({
       todos: todos.map(t => {
@@ -63,19 +67,25 @@ class App extends React.Component<AppProps, AppState> {
       })
     });
   }
-  deleteTodo({ id }: Todo) {
+
+  deleteTodo = ({ id }: Todo) => {
     const { todos } = this.state;
     this.setState({
       todos: todos.filter(t => t.id !== id)
     })
   }
-  filterTodos(filter: Filter) {
-    this.setState({
-      filter
-    })
+
+  filterTodos = (filter: Filter) => {
+    this.props.history.push(`/todos/${filter}`)
   }
+
   render() {
-    const { todos } = this.state; 
+    const { match } = this.props; 
+    const invalidUrl = ['all', 'todo', 'done'].indexOf(match.params.filter) == -1;
+    if (invalidUrl) {
+      return <Redirect to="/all" />;
+    }
+
     return (
       <div>
         <h1>Todo</h1>

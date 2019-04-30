@@ -1,5 +1,5 @@
 export enum Filter {
-  All,
-  Todo,
-  Done,
+  All = 'all',
+  Todo = 'todo',
+  Done = 'done',
 }
