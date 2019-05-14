@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
 import { match, Redirect, RouteComponentProps } from 'react-router-dom';
-import TodoForm from './TodoForm';
-import TodoList from './TodoList';
-import TodoFilters from './TodoFilters';
+
 import { Todo } from '../models/Todo'
 import { Filter } from '../models/Filter'
+import TodoList from './TodoList';
+import TodoFilters from './TodoFilters';
 
 interface FilterParam {
   filter: Filter;
@@ -83,14 +83,11 @@ class App extends React.Component<AppProps & RouteComponentProps, AppState> {
     const { match } = this.props; 
     const invalidUrl = ['all', 'todo', 'done'].indexOf(match.params.filter) == -1;
     if (invalidUrl) {
-      return <Redirect to="/all" />;
+      return <Redirect to="/todos/all" />;
     }
 
     return (
       <div>
-        <h1>Todo</h1>
-        <TodoForm onSubmit={(todo: Todo) => this.addTodo(todo)}/>
-        <hr />
         <TodoList 
           todos={this.fetchTodos()} 
           onUpdate={this.updateTodo} 
