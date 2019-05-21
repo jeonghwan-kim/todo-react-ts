@@ -1,6 +1,7 @@
 import * as React from 'react';
+
 import TodoItem from './TodoItem';
-import { Todo } from '../models/Todo'
+import { Todo } from '../models'
 
 interface TodoListProps {
   todos: Todo[];
@@ -14,7 +15,11 @@ const TodoList = (props: TodoListProps) => {
   return <ul>
     {todos.map(todo => (
       <li key={todo.id}>
-        <TodoItem todo={todo} onUpdate={onUpdate} onDelete={onDelete}/>
+        <TodoItem 
+          todo={todo} 
+          onUpdate={onUpdate} 
+          onDelete={onDelete}
+        />
       </li>
     ))}
   </ul>

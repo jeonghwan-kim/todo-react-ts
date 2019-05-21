@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Todo } from '../models/Todo'
+
+import { Todo } from '../models'
 
 interface TodoFormProps {
   onSubmit(todo: Todo) : void;
@@ -9,13 +10,11 @@ interface TodoFormStatus {
   title: string;
 }
 
-class TodoForm extends React.Component<TodoFormProps, TodoFormStatus> {
+class TodoForm extends React.PureComponent<TodoFormProps, TodoFormStatus> {
   titleInput: React.RefObject<HTMLInputElement>;
 
   constructor(props: TodoFormProps) {
     super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
       title: ''
@@ -23,10 +22,12 @@ class TodoForm extends React.Component<TodoFormProps, TodoFormStatus> {
 
     this.titleInput = React.createRef<HTMLInputElement>();
   }
+
   componentDidMount() {
     this.titleInput.current.focus();
   }
-  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     const { onSubmit } = this.props;
@@ -47,6 +48,7 @@ class TodoForm extends React.Component<TodoFormProps, TodoFormStatus> {
       title: '',
     });
   }
+  
   render() {
     const { title } = this.state;
     return (

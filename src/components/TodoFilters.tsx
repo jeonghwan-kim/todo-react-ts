@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Filter } from '../models/Filter';
+import { Filter } from '../models';
 
 const filterTextList = [
   {
@@ -18,32 +18,27 @@ interface TodoFilterProps {
   onChange(filter: Filter): void;
 }
 
-class TodoFiler extends React.Component<TodoFilterProps> {
-  constructor(props: TodoFilterProps) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick(filter: Filter) {
-    const { onChange } = this.props;
+const TodoFiler: React.FC<TodoFilterProps> = props => {
+  const { onChange } = props;
+  const handleClick = (filter: Filter) => {
     onChange(filter)
   }
-  render() {
-    return (
-      <ul>{
-        filterTextList.map(item => (
-          <li key={item.value}>
-            <a 
-              href="" 
-              onClick={(e) => {
-                e.preventDefault();
-                this.handleClick(item.value);
-              }}
-            >{item.text}</a>
-          </li>
-        ))
-      }</ul>
-    )
-  }
+
+  return (
+    <ul>{
+      filterTextList.map(item => (
+        <li key={item.value}>
+          <a 
+            href="" 
+            onClick={(e) => {
+              e.preventDefault();
+              handleClick(item.value);
+            }}
+          >{item.text}</a>
+        </li>
+      ))
+    }</ul>
+  )
 }
 
-export default TodoFiler ;
+export default TodoFiler;
