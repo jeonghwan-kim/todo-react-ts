@@ -14,11 +14,15 @@
   "dependencies": {
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.3",
+    "@types/react-redux": "^7.0.9",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.3"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
     "source-map-loader": "^0.2.4",
     "typescript": "^3.4.3",
     "webpack": "^4.29.6",
